@@ -22,6 +22,19 @@ const SortingAlgoRace = () => {
     bubble: false,
     selection: false,
   });
+  const [isOneRacing, setIsOneRacing] = useState(false);
+  const [isTwoRacing, setIsTwoRacing] = useState(false);
+
+  const allTrueObj = {
+    merge: true,
+    bubble: true,
+    selection: true,
+  };
+  const allFalseObj = {
+    merge: false,
+    bubble: false,
+    selection: false,
+  };
 
   useEffect(() => {
     resetArray();
@@ -53,16 +66,8 @@ const SortingAlgoRace = () => {
   // Randomly selects two items from the algorithm options and selects them
   const selectRandomAlgos = () => {
     const algosArr = [];
-    const checkedObj = {
-      merge: false,
-      bubble: false,
-      selection: false,
-    };
-    const disabledObj = {
-      merge: true,
-      bubble: true,
-      selection: true,
-    };
+    const checkedObj = allFalseObj;
+    const disabledObj = allTrueObj;
     while (algosArr.length < 2) {
       const randomAlgo = randomArrayElement(ALGO_OPTIONS);
       if (!algosArr.includes(randomAlgo)) {
@@ -94,11 +99,11 @@ const SortingAlgoRace = () => {
 
     if (algosArr.length === 2) {
       // Disable any algorithms that were not selected
-      const disabledObj = { merge: true, bubble: true, selection: true };
+      const disabledObj = allTrueObj;
       algosArr.forEach((item) => (disabledObj[item] = false));
       setIsDisabled(disabledObj);
     } else {
-      setIsDisabled({ merge: false, bubble: false, selection: false });
+      setIsDisabled(allFalseObj);
     }
 
     // Toggle the checkbox
@@ -107,41 +112,75 @@ const SortingAlgoRace = () => {
     setIsChecked(checkedObj);
   };
 
+  const startRace = (e) => {
+    e.preventDefault();
+    setIsOneRacing(true);
+    setIsTwoRacing(true);
+  };
+
+  // Variable representing if either of the algorithm sorting instances is racing or not
+  const isEitherRacing = isOneRacing || isTwoRacing;
+
   return (
     <div>
-      <button onClick={() => resetArray()}>Generate New Array</button>
+      <button onClick={() => resetArray()} disabled={isEitherRacing}>
+        Generate New Array
+      </button>
       <p>Choose the two sorting algorithms that you want to see race!</p>
-      <label for="merge">Merge Sort</label>
-      <input
-        id="merge"
-        name="merge"
-        type="checkbox"
-        checked={isChecked.merge}
-        disabled={isDisabled.merge}
-        onClick={() => updateSelectedAlgos("merge")}
+      <form onSubmit={startRace}>
+        <label for="merge">Merge Sort</label>
+        <input
+          id="merge"
+          name="merge"
+          type="checkbox"
+          checked={isChecked.merge}
+          disabled={isDisabled.merge || isEitherRacing}
+          onClick={() => updateSelectedAlgos("merge")}
+        />
+        <label for="bubble">Bubble Sort</label>
+        <input
+          id="bubble"
+          name="bubble"
+          type="checkbox"
+          checked={isChecked.bubble}
+          disabled={isDisabled.bubble || isEitherRacing}
+          onClick={() => updateSelectedAlgos("bubble")}
+        />
+        <label for="selection">Selection Sort</label>
+        <input
+          id="selection"
+          name="selection"
+          type="checkbox"
+          checked={isChecked.selection}
+          disabled={isDisabled.selection || isEitherRacing}
+          onClick={() => updateSelectedAlgos("selection")}
+        />
+        <input
+          type="button"
+          value="Random"
+          disabled={isEitherRacing}
+          onClick={() => selectRandomAlgos()}
+        />
+        <input
+          type="submit"
+          value="RACE"
+          disabled={selectedAlgos.length < 2 || isEitherRacing}
+        />
+      </form>
+      <SortingInstance
+        algorithm={selectedAlgos[0]}
+        array={array}
+        id={1}
+        isRacing={isOneRacing}
+        setIsRacing={setIsOneRacing}
       />
-      <label for="bubble">Bubble Sort</label>
-      <input
-        id="bubble"
-        name="bubble"
-        type="checkbox"
-        checked={isChecked.bubble}
-        disabled={isDisabled.bubble}
-        onClick={() => updateSelectedAlgos("bubble")}
+      <SortingInstance
+        algorithm={selectedAlgos[1]}
+        array={array}
+        id={2}
+        isRacing={isTwoRacing}
+        setIsRacing={setIsTwoRacing}
       />
-      <label for="selection">Selection Sort</label>
-      <input
-        id="selection"
-        name="selection"
-        type="checkbox"
-        checked={isChecked.selection}
-        disabled={isDisabled.selection}
-        onClick={() => updateSelectedAlgos("selection")}
-      />
-      <button onClick={() => selectRandomAlgos()}>Random</button>
-      <SortingInstance algorithm={selectedAlgos[0]} array={array} />
-      <SortingInstance algorithm={selectedAlgos[1]} array={array} />
-      <button>RACE</button>
     </div>
   );
 };
