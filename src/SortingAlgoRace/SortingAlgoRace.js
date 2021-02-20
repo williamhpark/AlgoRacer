@@ -170,14 +170,14 @@ const SortingAlgoRace = () => {
       <SortingInstance
         algorithm={selectedAlgos[0]}
         array={array}
-        id={1}
+        id="1"
         isRacing={isOneRacing}
         setIsRacing={setIsOneRacing}
       />
       <SortingInstance
         algorithm={selectedAlgos[1]}
         array={array}
-        id={2}
+        id="2"
         isRacing={isTwoRacing}
         setIsRacing={setIsTwoRacing}
       />

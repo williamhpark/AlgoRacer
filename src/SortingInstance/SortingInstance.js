@@ -13,18 +13,22 @@ const PRIMARY_COLOR = "turquoise";
 const SECONDARY_COLOR = "red";
 
 const AlgoSortInstance = (props) => {
+  const { algorithm, array, id, isRacing, setIsRacing } = props;
+
   const [time, setTime] = useState(0);
 
-  const { algorithm, array, id, isRacing, setIsRacing } = props;
+  useEffect(() => {
+    console.log(id);
+  }, []);
 
   useEffect(() => {
     if (isRacing) {
       if (algorithm === "merge") {
         mergeSort();
       } else if (algorithm === "bubble") {
-        mergeSort();
+        bubbleSort();
       } else if (algorithm === "selection") {
-        mergeSort();
+        selectionSort();
       }
     }
   }, [isRacing]);
@@ -42,9 +46,11 @@ const AlgoSortInstance = (props) => {
   }, [isRacing, time]);
 
   const mergeSort = () => {
-    const animations = getMergeSortAnimations(array);
+    console.log("merge sort called");
+    const arr = array.slice();
+    const animations = getMergeSortAnimations(arr);
     for (let i = 0; i < animations.length; i++) {
-      const arrayBars = document.getElementsByClassName(`array-bar-${id}`);
+      const arrayBars = document.getElementsByClassName(`array-${id}`);
       const isColorChange = i % 3 !== 2;
       if (isColorChange) {
         const [barOneIdx, barTwoIdx] = animations[i];
@@ -65,9 +71,13 @@ const AlgoSortInstance = (props) => {
     }
   };
 
-  const bubbleSort = () => {};
+  const bubbleSort = () => {
+    return null;
+  };
 
-  const selectionSort = () => {};
+  const selectionSort = () => {
+    return null;
+  };
 
   const areArraysEqual = (arr1, arr2) => {
     for (let i = 0; i < arr1.length; i++) {
@@ -101,7 +111,7 @@ const AlgoSortInstance = (props) => {
       {isRacing && <p>{time.toFixed(1)}s</p>}
       {array.map((value, idx) => (
         <div
-          className={"array-bar-" + id}
+          className={`array-bar array-${id}`}
           key={idx}
           style={{
             backgroundColor: PRIMARY_COLOR,

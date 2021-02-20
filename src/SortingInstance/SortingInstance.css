@@ -4,13 +4,7 @@
   /* top: 100px; */
 }
 
-.array-bar-1 {
-  width: 2px;
-  display: inline-block;
-  margin: 0 1px;
-}
-
-.array-bar-2 {
+.array-bar {
   width: 2px;
   display: inline-block;
   margin: 0 1px;
