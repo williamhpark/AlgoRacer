@@ -1,7 +1,20 @@
+.instance-container {
+  margin-top: 6px;
+}
+
+.instance-info {
+  text-align: center;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+}
+
 .array-container {
-  /* position: absolute;
-  left: 100px; */
-  /* top: 100px; */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .array-bar {

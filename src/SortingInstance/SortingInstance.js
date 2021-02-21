@@ -23,6 +23,9 @@ const AlgoSortInstance = (props) => {
     setIsRacing,
     finishedOrder,
     setFinishedOrder,
+    selectedAlgos,
+    updateSelectedAlgo,
+    isEitherRacing,
   } = props;
 
   const [time, setTime] = useState(0);
@@ -192,21 +195,47 @@ const AlgoSortInstance = (props) => {
   };
 
   return (
-    <div className="array-container">
-      {algorithm && (
-        <p>{algorithm[0].toUpperCase() + algorithm.slice(1)} Sort</p>
-      )}
-      <p>{time.toFixed(1)}s</p>
-      {array.map((value, idx) => (
-        <div
-          className={`array-bar array-${id}`}
-          key={idx}
-          style={{
-            backgroundColor: PRIMARY_COLOR,
-            height: `${value}px`, // Higher value => Higher height
-          }}
-        ></div>
-      ))}
+    <div className="instance-container">
+      <div className="instance-info">
+        {algorithm ? (
+          <h2>{algorithm.toUpperCase()} SORT</h2>
+        ) : (
+          <h2>Algorithm {id}</h2>
+        )}
+        <p>{time.toFixed(1)}s</p>
+      </div>
+      <div className="buttons-container">
+        <button
+          onClick={() => updateSelectedAlgo("merge")}
+          disabled={selectedAlgos.includes("merge") || isEitherRacing}
+        >
+          Merge Sort
+        </button>
+        <button
+          onClick={() => updateSelectedAlgo("bubble")}
+          disabled={selectedAlgos.includes("bubble") || isEitherRacing}
+        >
+          Bubble Sort
+        </button>
+        <button
+          onClick={() => updateSelectedAlgo("selection")}
+          disabled={selectedAlgos.includes("selection") || isEitherRacing}
+        >
+          Selection Sort
+        </button>
+      </div>
+      <div className="array-container">
+        {array.map((value, idx) => (
+          <div
+            className={`array-bar array-${id}`}
+            key={idx}
+            style={{
+              backgroundColor: PRIMARY_COLOR,
+              height: `${value}px`, // Higher value => Higher height
+            }}
+          ></div>
+        ))}
+      </div>
     </div>
   );
 };

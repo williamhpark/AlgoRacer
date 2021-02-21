@@ -12,38 +12,13 @@ const ALGO_OPTIONS = ["merge", "bubble", "selection"];
 const SortingAlgoRace = () => {
   const [array, setArray] = useState([]);
   const [selectedAlgos, setSelectedAlgos] = useState([]);
-  const [isChecked, setIsChecked] = useState({
-    merge: false,
-    bubble: false,
-    selection: false,
-  });
-  const [isDisabled, setIsDisabled] = useState({
-    merge: false,
-    bubble: false,
-    selection: false,
-  });
   const [isOneRacing, setIsOneRacing] = useState(false);
   const [isTwoRacing, setIsTwoRacing] = useState(false);
   const [finishedOrder, setFinishedOrder] = useState([]);
 
-  const allTrueObj = {
-    merge: true,
-    bubble: true,
-    selection: true,
-  };
-  const allFalseObj = {
-    merge: false,
-    bubble: false,
-    selection: false,
-  };
-
   useEffect(() => {
     resetArray();
   }, []);
-
-  useEffect(() => {
-    console.log(selectedAlgos);
-  }, [selectedAlgos]);
 
   // Returns a random int between the specified min and max arguments
   const randomIntFromInterval = (min, max) => {
@@ -66,57 +41,53 @@ const SortingAlgoRace = () => {
     return array[Math.floor(Math.random() * array.length)];
   };
 
+  const arraysAreEqual = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) {
+      return false;
+    }
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   // Randomly selects two items from the algorithm options and selects them
   const selectRandomAlgos = () => {
     setFinishedOrder([]);
-
-    const algosArr = [];
-    const checkedObj = allFalseObj;
-    const disabledObj = allTrueObj;
-    while (algosArr.length < 2) {
-      const randomAlgo = randomArrayElement(ALGO_OPTIONS);
-      if (!algosArr.includes(randomAlgo)) {
-        algosArr.push(randomAlgo);
-        checkedObj[randomAlgo] = true;
-        disabledObj[randomAlgo] = false;
+    let algosArray;
+    do {
+      algosArray = [];
+      while (algosArray.length < 2) {
+        const randomAlgo = randomArrayElement(ALGO_OPTIONS);
+        if (!algosArray.includes(randomAlgo)) {
+          algosArray.push(randomAlgo);
+        }
       }
-    }
-    setSelectedAlgos(algosArr);
-    setIsChecked(checkedObj);
-    setIsDisabled(disabledObj);
+    } while (arraysAreEqual(algosArray, selectedAlgos));
+    setSelectedAlgos(algosArray);
   };
 
-  const updateSelectedAlgos = (algo) => {
-    setFinishedOrder([]);
-
-    let algosArr = selectedAlgos;
-    if (
-      !isChecked[algo] && // The algorithm is initially unchecked
-      selectedAlgos.length < 2 // Less than two algorithms have been selected
-    ) {
-      // Adding the checked algorithm to selectedAlgos
-      algosArr.push(algo);
-      console.log(algosArr);
-    } else if (isChecked[algo]) {
-      // The algorithm is initially checked
-      // Removing the unchecked algorithm from selectedAlgos
-      algosArr = algosArr.filter((item) => item !== algo); // Remove the unchecked algorithm from the array of selected algorithms
+  const selectAlgoOne = (algo) => {
+    const algosArray = selectedAlgos.slice(0);
+    if (selectedAlgos.length === 2) {
+      algosArray.shift();
     }
-    setSelectedAlgos(algosArr);
+    algosArray.unshift(algo);
+    setSelectedAlgos(algosArray);
+  };
 
-    if (algosArr.length === 2) {
-      // Disable any algorithms that were not selected
-      const disabledObj = allTrueObj;
-      algosArr.forEach((item) => (disabledObj[item] = false));
-      setIsDisabled(disabledObj);
-    } else {
-      setIsDisabled(allFalseObj);
+  const selectAlgoTwo = (algo) => {
+    const algosArray = selectedAlgos.slice(0);
+    if (selectedAlgos.length === 0) {
+      algosArray.push(null);
     }
-
-    // Toggle the checkbox
-    const checkedObj = isChecked;
-    checkedObj[algo] = !checkedObj[algo];
-    setIsChecked(checkedObj);
+    if (selectedAlgos.length === 2) {
+      algosArray.pop();
+    }
+    algosArray.push(algo);
+    setSelectedAlgos(algosArray);
   };
 
   const startRace = (e) => {
@@ -133,47 +104,17 @@ const SortingAlgoRace = () => {
       <button onClick={() => resetArray()} disabled={isEitherRacing}>
         Generate New Array
       </button>
-      <p>Choose the two sorting algorithms that you want to see race!</p>
+      <button disabled={isEitherRacing} onClick={() => selectRandomAlgos()}>
+        Random
+      </button>
       <form onSubmit={startRace}>
-        <label htmlFor="merge">Merge Sort</label>
-        <input
-          id="merge"
-          name="merge"
-          type="checkbox"
-          checked={isChecked.merge}
-          disabled={isDisabled.merge || isEitherRacing}
-          onClick={() => updateSelectedAlgos("merge")}
-        />
-        <label htmlFor="bubble">Bubble Sort</label>
-        <input
-          id="bubble"
-          name="bubble"
-          type="checkbox"
-          checked={isChecked.bubble}
-          disabled={isDisabled.bubble || isEitherRacing}
-          onClick={() => updateSelectedAlgos("bubble")}
-        />
-        <label htmlFor="selection">Selection Sort</label>
-        <input
-          id="selection"
-          name="selection"
-          type="checkbox"
-          checked={isChecked.selection}
-          disabled={isDisabled.selection || isEitherRacing}
-          onClick={() => updateSelectedAlgos("selection")}
-        />
-        <input
-          type="button"
-          value="Random"
-          disabled={isEitherRacing}
-          onClick={() => selectRandomAlgos()}
-        />
         <input
           type="submit"
           value="RACE"
           disabled={selectedAlgos.length < 2 || isEitherRacing}
         />
       </form>
+      <p>Choose the two sorting algorithms that you want to see race!</p>
       {finishedOrder.length == 2 && (
         <p>
           Winner:{" "}
@@ -183,20 +124,26 @@ const SortingAlgoRace = () => {
       <SortingInstance
         algorithm={selectedAlgos[0]}
         array={array}
-        id="1"
+        id={1}
         isRacing={isOneRacing}
         setIsRacing={setIsOneRacing}
         finishedOrder={finishedOrder}
         setFinishedOrder={setFinishedOrder}
+        selectedAlgos={selectedAlgos}
+        updateSelectedAlgo={selectAlgoOne}
+        isEitherRacing={isEitherRacing}
       />
       <SortingInstance
         algorithm={selectedAlgos[1]}
         array={array}
-        id="2"
+        id={2}
         isRacing={isTwoRacing}
         setIsRacing={setIsTwoRacing}
         finishedOrder={finishedOrder}
         setFinishedOrder={setFinishedOrder}
+        selectedAlgos={selectedAlgos}
+        updateSelectedAlgo={selectAlgoTwo}
+        isEitherRacing={isEitherRacing}
       />
     </div>
   );
