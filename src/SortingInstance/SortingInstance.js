@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 
 import "./SortingInstance.css";
 import { getMergeSortAnimations } from "../sortingAlgorithms/mergeSort";
+import { getBubbleSortAnimations } from "../sortingAlgorithms/bubbleSort";
 
 // Change this value for the speed of the animations.
-const ANIMATION_SPEED_MS = 1;
+const ANIMATION_SPEED_MS = 10;
 
 // This is the main color of the array bars.
 const PRIMARY_COLOR = "turquoise";
@@ -32,12 +33,13 @@ const AlgoSortInstance = (props) => {
   useEffect(() => {
     if (isRacing) {
       setTime(0);
+      setFinishedOrder([]);
       if (algorithm === "merge") {
         mergeSort();
       } else if (algorithm === "bubble") {
-        mergeSort();
+        bubbleSort();
       } else if (algorithm === "selection") {
-        mergeSort();
+        selectionSort();
       }
     }
   }, [isRacing]);
@@ -55,7 +57,6 @@ const AlgoSortInstance = (props) => {
   }, [isRacing, time]);
 
   const mergeSort = () => {
-    console.log("merge sort called");
     const arr = array.slice();
     const animations = getMergeSortAnimations(arr);
     for (let i = 0; i < animations.length; i++) {
@@ -71,7 +72,7 @@ const AlgoSortInstance = (props) => {
           barTwoStyle.backgroundColor = color;
           if (i === animations.length - 1) {
             setIsRacing(false);
-            setFinishedOrder([...finishedOrder, algorithm]);
+            setFinishedOrder((finishedOrder) => [...finishedOrder, algorithm]);
           }
         }, i * ANIMATION_SPEED_MS);
       } else {
@@ -81,7 +82,7 @@ const AlgoSortInstance = (props) => {
           barOneStyle.height = `${newHeight}px`;
           if (i === animations.length - 1) {
             setIsRacing(false);
-            setFinishedOrder([...finishedOrder, algorithm]);
+            setFinishedOrder((finishedOrder) => [...finishedOrder, algorithm]);
           }
         }, i * ANIMATION_SPEED_MS);
       }
@@ -89,36 +90,56 @@ const AlgoSortInstance = (props) => {
   };
 
   const bubbleSort = () => {
-    return null;
+    const arr = array.slice(0);
+    const animations = getBubbleSortAnimations(arr);
+    for (let i = 0; i < animations.length; i++) {
+      const arrayBars = document.getElementsByClassName(`array-${id}`);
+      const barOneIdx = animations[i][1];
+      const barTwoIdx = barOneIdx + 1;
+      const barOneStyle = arrayBars[barOneIdx].style;
+      const barTwoStyle = arrayBars[barTwoIdx].style;
+
+      if (animations[i][0] === "c") {
+        setTimeout(() => {
+          const prevBarIdx = barOneIdx - 1;
+          if (prevBarIdx >= 0) {
+            const prevBarStyle = arrayBars[prevBarIdx].style;
+            prevBarStyle.backgroundColor = PRIMARY_COLOR;
+          }
+          barOneStyle.backgroundColor = SECONDARY_COLOR;
+          barTwoStyle.backgroundColor = SECONDARY_COLOR;
+          if (i === animations.length - 1) {
+            setIsRacing(false);
+            setFinishedOrder((finishedOrder) => [...finishedOrder, algorithm]);
+          }
+        }, i * ANIMATION_SPEED_MS);
+      } else if (animations[i][0] === "s") {
+        setTimeout(() => {
+          const barOneHeight = animations[i][2];
+          const barTwoHeight = animations[i][3];
+          barOneStyle.height = `${barOneHeight}px`;
+          barTwoStyle.height = `${barTwoHeight}px`;
+          if (i === animations.length - 1) {
+            setIsRacing(false);
+            setFinishedOrder((finishedOrder) => [...finishedOrder, algorithm]);
+          }
+        }, i * ANIMATION_SPEED_MS);
+      } else if (animations[i][0] === "u") {
+        setTimeout(() => {
+          barOneStyle.backgroundColor = PRIMARY_COLOR;
+          barTwoStyle.backgroundColor = PRIMARY_COLOR;
+          if (i === animations.length - 1) {
+            setIsRacing(false);
+            setFinishedOrder((finishedOrder) => [...finishedOrder, algorithm]);
+          }
+        }, i * ANIMATION_SPEED_MS);
+      }
+    }
   };
 
   const selectionSort = () => {
     return null;
   };
-
-  const areArraysEqual = (arr1, arr2) => {
-    for (let i = 0; i < arr1.length; i++) {
-      if (arr1[i] !== arr2[i]) {
-        return false;
-      }
-    }
-    return true;
-  };
-
-  /*
-  const testSortingAlgorithms = () => {
-    for (let i = 0; i < 100; i++) {
-      const array = [];
-      const length = randomIntFromInterval(1, 1000);
-      for (let i = 0; i < length; i++) {
-        array.push(randomIntFromInterval(-1000, 1000));
-      }
-      const javaScriptSortedArray = array.slice().sort((a, b) => a - b);
-      const mergeSortedArray = getMergeSortAnimations(array.slice());
-      console.log(areArraysEqual(javaScriptSortedArray, mergeSortedArray));
-    }
-  };
-  */
 
   return (
     <div className="array-container">

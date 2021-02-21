@@ -4,7 +4,7 @@ import "./SortingAlgoRace.css";
 import SortingInstance from "../SortingInstance/SortingInstance";
 
 // Change this value for the number of bars (value) in the array.
-const NUMBER_OF_ARRAY_BARS = 310;
+const NUMBER_OF_ARRAY_BARS = 50;
 
 // All the supported sorting algorithms
 const ALGO_OPTIONS = ["merge", "bubble", "selection"];
@@ -52,6 +52,8 @@ const SortingAlgoRace = () => {
 
   // Sets the "array" state property to a new random array
   const resetArray = () => {
+    setFinishedOrder([]);
+
     const array = [];
     for (let i = 0; i < NUMBER_OF_ARRAY_BARS; i++) {
       array.push(randomIntFromInterval(5, 730));
@@ -66,6 +68,8 @@ const SortingAlgoRace = () => {
 
   // Randomly selects two items from the algorithm options and selects them
   const selectRandomAlgos = () => {
+    setFinishedOrder([]);
+
     const algosArr = [];
     const checkedObj = allFalseObj;
     const disabledObj = allTrueObj;
@@ -83,6 +87,8 @@ const SortingAlgoRace = () => {
   };
 
   const updateSelectedAlgos = (algo) => {
+    setFinishedOrder([]);
+
     let algosArr = selectedAlgos;
     if (
       !isChecked[algo] && // The algorithm is initially unchecked
@@ -168,6 +174,12 @@ const SortingAlgoRace = () => {
           disabled={selectedAlgos.length < 2 || isEitherRacing}
         />
       </form>
+      {finishedOrder.length == 2 && (
+        <p>
+          Winner:{" "}
+          {finishedOrder[0][0].toUpperCase() + finishedOrder[0].slice(1)} Sort!
+        </p>
+      )}
       <SortingInstance
         algorithm={selectedAlgos[0]}
         array={array}
