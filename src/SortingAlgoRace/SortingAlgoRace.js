@@ -24,6 +24,7 @@ const SortingAlgoRace = () => {
   });
   const [isOneRacing, setIsOneRacing] = useState(false);
   const [isTwoRacing, setIsTwoRacing] = useState(false);
+  const [finishedOrder, setFinishedOrder] = useState([]);
 
   const allTrueObj = {
     merge: true,
@@ -128,7 +129,7 @@ const SortingAlgoRace = () => {
       </button>
       <p>Choose the two sorting algorithms that you want to see race!</p>
       <form onSubmit={startRace}>
-        <label for="merge">Merge Sort</label>
+        <label htmlFor="merge">Merge Sort</label>
         <input
           id="merge"
           name="merge"
@@ -137,7 +138,7 @@ const SortingAlgoRace = () => {
           disabled={isDisabled.merge || isEitherRacing}
           onClick={() => updateSelectedAlgos("merge")}
         />
-        <label for="bubble">Bubble Sort</label>
+        <label htmlFor="bubble">Bubble Sort</label>
         <input
           id="bubble"
           name="bubble"
@@ -146,7 +147,7 @@ const SortingAlgoRace = () => {
           disabled={isDisabled.bubble || isEitherRacing}
           onClick={() => updateSelectedAlgos("bubble")}
         />
-        <label for="selection">Selection Sort</label>
+        <label htmlFor="selection">Selection Sort</label>
         <input
           id="selection"
           name="selection"
@@ -173,6 +174,8 @@ const SortingAlgoRace = () => {
         id="1"
         isRacing={isOneRacing}
         setIsRacing={setIsOneRacing}
+        finishedOrder={finishedOrder}
+        setFinishedOrder={setFinishedOrder}
       />
       <SortingInstance
         algorithm={selectedAlgos[1]}
@@ -180,6 +183,8 @@ const SortingAlgoRace = () => {
         id="2"
         isRacing={isTwoRacing}
         setIsRacing={setIsTwoRacing}
+        finishedOrder={finishedOrder}
+        setFinishedOrder={setFinishedOrder}
       />
     </div>
   );

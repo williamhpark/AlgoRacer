@@ -13,7 +13,15 @@ const PRIMARY_COLOR = "turquoise";
 const SECONDARY_COLOR = "red";
 
 const AlgoSortInstance = (props) => {
-  const { algorithm, array, id, isRacing, setIsRacing } = props;
+  const {
+    algorithm,
+    array,
+    id,
+    isRacing,
+    setIsRacing,
+    finishedOrder,
+    setFinishedOrder,
+  } = props;
 
   const [time, setTime] = useState(0);
 
@@ -23,12 +31,13 @@ const AlgoSortInstance = (props) => {
 
   useEffect(() => {
     if (isRacing) {
+      setTime(0);
       if (algorithm === "merge") {
         mergeSort();
       } else if (algorithm === "bubble") {
-        bubbleSort();
+        mergeSort();
       } else if (algorithm === "selection") {
-        selectionSort();
+        mergeSort();
       }
     }
   }, [isRacing]);
@@ -60,12 +69,20 @@ const AlgoSortInstance = (props) => {
         setTimeout(() => {
           barOneStyle.backgroundColor = color;
           barTwoStyle.backgroundColor = color;
+          if (i === animations.length - 1) {
+            setIsRacing(false);
+            setFinishedOrder([...finishedOrder, algorithm]);
+          }
         }, i * ANIMATION_SPEED_MS);
       } else {
         setTimeout(() => {
           const [barOneIdx, newHeight] = animations[i];
           const barOneStyle = arrayBars[barOneIdx].style;
           barOneStyle.height = `${newHeight}px`;
+          if (i === animations.length - 1) {
+            setIsRacing(false);
+            setFinishedOrder([...finishedOrder, algorithm]);
+          }
         }, i * ANIMATION_SPEED_MS);
       }
     }
@@ -108,7 +125,7 @@ const AlgoSortInstance = (props) => {
       {algorithm && (
         <p>{algorithm[0].toUpperCase() + algorithm.slice(1)} Sort</p>
       )}
-      {isRacing && <p>{time.toFixed(1)}s</p>}
+      <p>{time.toFixed(1)}s</p>
       {array.map((value, idx) => (
         <div
           className={`array-bar array-${id}`}
