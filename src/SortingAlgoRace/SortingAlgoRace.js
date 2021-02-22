@@ -144,7 +144,7 @@ const SortingAlgoRace = () => {
           <p>Race different sorting algorithms against one another</p>
         </div>
         <div className="slider-container">
-          <label htmlFor="slider">
+          <label htmlFor="size-slider">
             <b>Array Size:</b> {numberOfArrayBars}
           </label>
           <input
@@ -159,7 +159,7 @@ const SortingAlgoRace = () => {
           />
         </div>
         <div className="slider-container">
-          <label htmlFor="slider">
+          <label htmlFor="speed-slider">
             <b>Animation Speed:</b> {animationSpeed}ms
           </label>
           <div className="slider-with-endpoints">

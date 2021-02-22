@@ -21,16 +21,12 @@
   margin: 1rem 0;
 }
 
-.slider-container label {
-  margin-bottom: 1rem;
+.slider-container input {
+  margin: 0.5rem 1rem;
 }
 
 .slider-with-endpoints {
   display: flex;
-}
-
-.slider-with-endpoints input {
-  margin: 0 1rem;
 }
 
 .button-container {
