@@ -1,5 +1,5 @@
 .instance-container {
-  margin: 1rem 0;
+  margin-bottom: 1.5rem;
 }
 
 .instance-info {
@@ -10,7 +10,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  height: 150px;
+  height: 110px;
 }
 
 .array-bar {
@@ -20,7 +20,7 @@
 }
 
 .button-container .selected {
-  background-color: rgb(106, 224, 106);
+  background-color: #98fb98;
   color: black;
   font-weight: bold;
 }

@@ -1,21 +1,4 @@
-h1 {
-  font-size: 3rem;
-}
-
-h2 {
-  font-size: 1.5rem;
-}
-
-h3 {
-  font-size: 1.5rem;
-}
-
-p {
-  font-size: 1.25rem;
-}
-
 button {
-  font-size: 1.1rem;
   margin: 0 4px;
   padding: 0.4rem;
   border-radius: 10px;
@@ -27,10 +10,10 @@ button:disabled {
   cursor: auto;
 }
 
-label {
-  font-size: 1.1rem;
-}
-
 input[type="range"] {
   cursor: pointer;
+}
+
+input[type="range"]:disabled {
+  cursor: auto;
 }

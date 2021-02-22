@@ -33,7 +33,7 @@ const SortingAlgoRace = () => {
     setFinishedOrder([]);
     const array = [];
     for (let i = 0; i < numberOfArrayBars; i++) {
-      array.push(randomIntFromInterval(5, 150));
+      array.push(randomIntFromInterval(5, 100));
     }
     setArray(array);
   };
