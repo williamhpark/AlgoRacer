@@ -1,24 +1,26 @@
 .instance-container {
-  margin-top: 6px;
+  margin: 1rem 0;
 }
 
 .instance-info {
   text-align: center;
 }
 
-.buttons-container {
-  display: flex;
-  justify-content: center;
-}
-
 .array-container {
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  height: 150px;
 }
 
 .array-bar {
   width: 10px;
   display: inline-block;
   margin: 0 1px;
+}
+
+.button-container .selected {
+  background-color: rgb(106, 224, 106);
+  color: black;
+  font-weight: bold;
 }

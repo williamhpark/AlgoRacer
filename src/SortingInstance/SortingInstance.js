@@ -4,19 +4,19 @@ import "./SortingInstance.css";
 import { getMergeSortAnimations } from "../sortingAlgorithms/mergeSort";
 import { getBubbleSortAnimations } from "../sortingAlgorithms/bubbleSort";
 import { getSelectionSortAnimations } from "../sortingAlgorithms/selectionSort";
+import { getInsertionSortAnimations } from "../sortingAlgorithms/insertionSort";
 
-// Change this value for the speed of the animations.
-const ANIMATION_SPEED_MS = 10;
+// The speed of the animations
+const ANIMATION_SPEED_MS = 15;
 
-// This is the main color of the array bars.
+// The main color of the array bars
 const PRIMARY_COLOR = "turquoise";
 
-// This is the color of array bars that are being compared throughout the animations.
+// The color of array bars that are being compared throughout the animations
 const SECONDARY_COLOR = "red";
 
 const AlgoSortInstance = (props) => {
   const {
-    algorithm,
     array,
     id,
     isRacing,
@@ -26,7 +26,9 @@ const AlgoSortInstance = (props) => {
     selectedAlgos,
     updateSelectedAlgo,
     isEitherRacing,
+    ALGO_OPTIONS,
   } = props;
+  const algorithm = selectedAlgos[id - 1];
 
   const [time, setTime] = useState(0);
 
@@ -44,6 +46,8 @@ const AlgoSortInstance = (props) => {
         bubbleSort();
       } else if (algorithm === "selection") {
         selectionSort();
+      } else if (algorithm === "insertion") {
+        insertionSort();
       }
     }
   }, [isRacing]);
@@ -59,6 +63,11 @@ const AlgoSortInstance = (props) => {
     }
     return () => clearInterval(interval);
   }, [isRacing, time]);
+
+  // If a new array is generated or a different algorithm is selected, the stopwatch is reset
+  useEffect(() => {
+    setTime(0);
+  }, [selectedAlgos, array]);
 
   const changeColor = (
     arrayBars,
@@ -194,6 +203,8 @@ const AlgoSortInstance = (props) => {
     }
   };
 
+  const insertionSort = () => {};
+
   return (
     <div className="instance-container">
       <div className="instance-info">
@@ -202,27 +213,20 @@ const AlgoSortInstance = (props) => {
         ) : (
           <h2>Algorithm {id}</h2>
         )}
-        <p>{time.toFixed(1)}s</p>
+        <p>Time Elapsed: {time.toFixed(1)}s</p>
       </div>
-      <div className="buttons-container">
-        <button
-          onClick={() => updateSelectedAlgo("merge")}
-          disabled={selectedAlgos.includes("merge") || isEitherRacing}
-        >
-          Merge Sort
-        </button>
-        <button
-          onClick={() => updateSelectedAlgo("bubble")}
-          disabled={selectedAlgos.includes("bubble") || isEitherRacing}
-        >
-          Bubble Sort
-        </button>
-        <button
-          onClick={() => updateSelectedAlgo("selection")}
-          disabled={selectedAlgos.includes("selection") || isEitherRacing}
-        >
-          Selection Sort
-        </button>
+      <div className="button-container">
+        {ALGO_OPTIONS.map((algo) => {
+          return (
+            <button
+              className={selectedAlgos[id - 1] === algo ? "selected" : null}
+              onClick={() => updateSelectedAlgo(algo)}
+              disabled={selectedAlgos.includes(algo) || isEitherRacing}
+            >
+              {algo[0].toUpperCase() + algo.slice(1)} Sort
+            </button>
+          );
+        })}
       </div>
       <div className="array-container">
         {array.map((value, idx) => (
