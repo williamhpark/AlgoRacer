@@ -1,13 +1,12 @@
 .algo-racer-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .content-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0 6rem;
   height: 100vh;
 }
 
@@ -19,11 +18,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 2rem;
+  margin: 1rem 0;
 }
 
 .slider-container label {
   margin-bottom: 1rem;
+}
+
+.slider-with-endpoints {
+  display: flex;
+}
+
+.slider-with-endpoints input {
+  margin: 0 1rem;
 }
 
 .button-container {

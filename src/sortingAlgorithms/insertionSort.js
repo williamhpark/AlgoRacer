@@ -6,24 +6,21 @@ export const getInsertionSortAnimations = (array) => {
 };
 
 const doInsertion = (array, animations) => {
-  for (let i = 0; i < array.length; i++) {
-    animations.push(["c", i]);
-    let minIdx = i; // Index of the minimum element
-    for (let j = i + 1; j < array.length; j++) {
-      animations.push(["c", j, null]);
-      if (array[j] < array[minIdx]) {
-        minIdx = j; // Update the index of the mimimum element
-      }
+  for (let i = 1; i < array.length; i++) {
+    let current = array[i];
+    animations.push(["c", i, null]);
+    let j = i - 1;
+    animations.push(["c", j, null]);
+    while (j >= 0 && current < array[j]) {
+      animations.push(["h", j + 1, array[j]]);
+      array[j + 1] = array[j];
       animations.push(["u", j, null]);
+      j--;
+      animations.push(["c", j, null]);
     }
-    // Place the mimimum value at the beginning of the sub-array
-    if (minIdx !== i) {
-      let temp = array[i];
-      array[i] = array[minIdx];
-      array[minIdx] = temp;
-      animations.push(["h", i, array[i]]);
-      animations.push(["h", minIdx, array[minIdx]]);
-    }
-    animations.push(["u", i, minIdx]);
+    animations.push(["h", j + 1, current]);
+    array[j + 1] = current;
+    animations.push(["u", j, null]);
+    animations.push(["u", i, null]);
   }
 };

@@ -6,17 +6,15 @@ import { getBubbleSortAnimations } from "../sortingAlgorithms/bubbleSort";
 import { getSelectionSortAnimations } from "../sortingAlgorithms/selectionSort";
 import { getInsertionSortAnimations } from "../sortingAlgorithms/insertionSort";
 
-// The speed of the animations
-const ANIMATION_SPEED_MS = 15;
-
-// The main color of the array bars
+// The main color of the array bars.
 const PRIMARY_COLOR = "turquoise";
 
-// The color of array bars that are being compared throughout the animations
+// The color of array bars that are being compared throughout the animations.
 const SECONDARY_COLOR = "red";
 
 const AlgoSortInstance = (props) => {
   const {
+    animationSpeed,
     array,
     id,
     isRacing,
@@ -31,10 +29,6 @@ const AlgoSortInstance = (props) => {
   const algorithm = selectedAlgos[id - 1];
 
   const [time, setTime] = useState(0);
-
-  useEffect(() => {
-    console.log(id);
-  }, []);
 
   useEffect(() => {
     if (isRacing) {
@@ -64,7 +58,7 @@ const AlgoSortInstance = (props) => {
     return () => clearInterval(interval);
   }, [isRacing, time]);
 
-  // If a new array is generated or a different algorithm is selected, the stopwatch is reset
+  // If a new array is generated or a different algorithm is selected, the stopwatch is reset.
   useEffect(() => {
     setTime(0);
   }, [selectedAlgos, array]);
@@ -90,7 +84,7 @@ const AlgoSortInstance = (props) => {
         setIsRacing(false);
         setFinishedOrder((finishedOrder) => [...finishedOrder, algorithm]);
       }
-    }, i * ANIMATION_SPEED_MS);
+    }, i * animationSpeed);
   };
 
   const changeHeight = (arrayBars, barIdx, newHeight, i, animationsLength) => {
@@ -101,11 +95,11 @@ const AlgoSortInstance = (props) => {
         setIsRacing(false);
         setFinishedOrder((finishedOrder) => [...finishedOrder, algorithm]);
       }
-    }, i * ANIMATION_SPEED_MS);
+    }, i * animationSpeed);
   };
 
   const mergeSort = () => {
-    const arr = array.slice();
+    const arr = array.slice(0);
     const animations = getMergeSortAnimations(arr);
     const animationsLength = animations.length;
     for (let i = 0; i < animationsLength; i++) {
@@ -146,7 +140,7 @@ const AlgoSortInstance = (props) => {
           PRIMARY_COLOR,
           i,
           animationsLength
-        ); // Revert the color of previously selected bar back to PRIMARY_COLOR
+        ); // Revert the color of previously selected bar back to PRIMARY_COLOR.
         changeColor(
           arrayBars,
           argumentOne,
@@ -154,7 +148,7 @@ const AlgoSortInstance = (props) => {
           SECONDARY_COLOR,
           i,
           animationsLength
-        ); // Change color of currently selected bars to SECONDARY_COLOR
+        ); // Change color of currently selected bars to SECONDARY_COLOR.
       } else if (command === "h") {
         changeHeight(arrayBars, argumentOne, argumentTwo, i, animationsLength);
       } else if (command === "u") {
@@ -183,7 +177,7 @@ const AlgoSortInstance = (props) => {
         changeColor(
           arrayBars,
           argumentOne,
-          null,
+          argumentTwo,
           SECONDARY_COLOR,
           i,
           animationsLength
@@ -203,15 +197,46 @@ const AlgoSortInstance = (props) => {
     }
   };
 
-  const insertionSort = () => {};
+  const insertionSort = () => {
+    const arr = array.slice(0);
+    const animations = getInsertionSortAnimations(arr);
+    const animationsLength = animations.length;
+    for (let i = 0; i < animationsLength; i++) {
+      const arrayBars = document.getElementsByClassName(`array-${id}`);
+      const command = animations[i][0];
+      const argumentOne = animations[i][1];
+      const argumentTwo = animations[i][2];
+      if (command === "c") {
+        changeColor(
+          arrayBars,
+          argumentOne,
+          argumentTwo,
+          SECONDARY_COLOR,
+          i,
+          animationsLength
+        );
+      } else if (command === "h") {
+        changeHeight(arrayBars, argumentOne, argumentTwo, i, animationsLength);
+      } else if (command === "u") {
+        changeColor(
+          arrayBars,
+          argumentOne,
+          argumentTwo,
+          PRIMARY_COLOR,
+          i,
+          animationsLength
+        );
+      }
+    }
+  };
 
   return (
     <div className="instance-container">
       <div className="instance-info">
         {algorithm ? (
-          <h2>{algorithm.toUpperCase()} SORT</h2>
+          <h3>{algorithm.toUpperCase()} SORT</h3>
         ) : (
-          <h2>Algorithm {id}</h2>
+          <h3>Algorithm {id}</h3>
         )}
         <p>Time Elapsed: {time.toFixed(1)}s</p>
       </div>

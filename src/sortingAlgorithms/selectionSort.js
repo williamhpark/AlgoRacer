@@ -7,16 +7,16 @@ export const getSelectionSortAnimations = (array) => {
 
 const doSelection = (array, animations) => {
   for (let i = 0; i < array.length; i++) {
-    animations.push(["c", i]);
-    let minIdx = i; // Index of the minimum element
+    animations.push(["c", i, null]);
+    let minIdx = i; // Index of the minimum element.
     for (let j = i + 1; j < array.length; j++) {
       animations.push(["c", j, null]);
       if (array[j] < array[minIdx]) {
-        minIdx = j; // Update the index of the mimimum element
+        minIdx = j; // Update the index of the mimimum element.
       }
       animations.push(["u", j, null]);
     }
-    // Place the mimimum value at the beginning of the sub-array
+    // Place the mimimum value at the beginning of the sub-array.
     if (minIdx !== i) {
       let temp = array[i];
       array[i] = array[minIdx];

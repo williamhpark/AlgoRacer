@@ -22,7 +22,7 @@ const doBubble = (array, animations) => {
         animations.push(["h", i + 1, array[i + 1]]);
         animations.push(["u", i, null]);
       }
-      // Set the color of the second to last and last items in the round back to PRIMARY_COLOR
+      // Set the color of the second to last and last items in the round back to PRIMARY_COLOR.
       if (i === n - 2) {
         animations.push(["u", i, i + 1]);
       }
