@@ -2,7 +2,7 @@
 
 ## Description
 
-A sorting algorithm visualizer created using React that races a variety of sorting algorithms against one another to compare their efficiency.
+A sorting algorithm visualizer created using React that races a variety of sorting algorithms against one another to compare their efficiency.  
 Try it out at https://algoracer.herokuapp.com/.
 
 ## Algorithms
