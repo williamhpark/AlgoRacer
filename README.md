@@ -11,8 +11,8 @@ Try it out at https://algoracer.herokuapp.com/.
 
 ### Time Complexity:
 
-**Best-case:** `Ω(nlog(n))`
-**Average-case:** `θ(nlog(n))`
+**Best-case:** `Ω(nlog(n))`  
+**Average-case:** `θ(nlog(n))`  
 **Worst-case:** `O(nlog(n))`
 
 ## Bubble Sort
@@ -21,8 +21,8 @@ Try it out at https://algoracer.herokuapp.com/.
 
 ### Time Complexity:
 
-**Best-case:** `Ω(n)`
-**Average-case:** `θ(n^2)`
+**Best-case:** `Ω(n)`  
+**Average-case:** `θ(n^2)`  
 **Worst-case:** `O(n^2)`
 
 ## Selection Sort
@@ -31,8 +31,8 @@ Try it out at https://algoracer.herokuapp.com/.
 
 ### Time Complexity:
 
-**Best-case:** `Ω(n^2)`
-**Average-case:** `θ(n^2)`
+**Best-case:** `Ω(n^2)`  
+**Average-case:** `θ(n^2)`  
 **Worst-case:** `O(n^2)`
 
 ## Insertion Sort
@@ -41,6 +41,6 @@ Try it out at https://algoracer.herokuapp.com/.
 
 ### Time Complexity:
 
-**Best-case:** `Ω(n)`
-**Average-case:** `θ(n^2)`
+**Best-case:** `Ω(n)`  
+**Average-case:** `θ(n^2)`  
 **Worst-case:** `O(n^2)`
