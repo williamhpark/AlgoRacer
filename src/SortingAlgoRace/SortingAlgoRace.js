@@ -141,7 +141,7 @@ const SortingAlgoRace = () => {
       <div className="content-container">
         <div className="welcome-message">
           <h1>Welcome to AlgoRacer</h1>
-          <p>Race different sorting algorithms against one another</p>
+          <p>Race different sorting algorithms against each other</p>
         </div>
         <div className="slider-container">
           <label htmlFor="size-slider">
