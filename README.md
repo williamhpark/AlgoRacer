@@ -1,4 +1,4 @@
-# AlgoRacer
+# 🏎️ AlgoRacer
 
 ## Description
 
